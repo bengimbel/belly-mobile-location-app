@@ -5,4 +5,8 @@ export const BASIC_DATA_FAIL = 'BASIC_DATA_FAIL';
 export const USER_COORDINATE_REQUEST = 'USER_COORDINATE_REQUEST';
 export const USER_COORDINATE_SUCCESS = 'USER_COORDINATE_SUCCESS';
 export const USER_COORDINATE_FAIL = 'USER_COORDINATE_FAIL';
+export const FETCH_CUSTOM_DATA = 'FETCH_CUSTOM_DATA';
+export const FETCH_CUSTOM_DATA_SUCCESS = 'FETCH_CUSTOM_DATA_SUCCESS';
+export const FETCH_CUSTOM_DATA_FAIL = 'FETCH_CUSTOM_DATA_FAIL';
 export const url = 'https://api.yelp.com/v3/businesses/search?term=food&';
+export const urlCustom = 'https://api.yelp.com/v3/businesses/search?'

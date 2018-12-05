@@ -6,12 +6,22 @@ import { bindActionCreators } from 'redux';
 type Props = {};
 
 class BellyMapView extends Component<Props> {
+  constructor(props){
+    super(props)
+
+    this.state = ({
+        latitude: null,
+        longitude: null,
+        data: null
+    })
+}
 
   renderMarkers() {
-    if(this.props.basicData.data.businesses){
-      console.log(this.props.basicData.data.businesses, 'dad')
+    console.log(this.props.data, 'DSDADADA')
+    if(this.props.data){
+      console.log(this.props.data, 'DATA I NEED')
       return (
-        this.props.basicData.data.businesses.map((biz) => {
+        this.props.data.map((biz) => {
           return(
             <MapView.Marker
               key={biz.id}
@@ -28,21 +38,21 @@ class BellyMapView extends Component<Props> {
         })
       )
 
+    } else{
+      <Text>LOADING</Text>
     }
   }
     render() {
-      const lat = this.props.lat;
-      const lon = this.props.lon;
         return (
-          
+  
           <View style={styles.container}>
     
           {this.props.basicData.data.businesses &&
             
             <MapView style={styles.map}
               region={{
-                latitude: lat,
-                longitude: lon,
+                latitude: this.props.lat,
+                longitude: this.props.lon,
                 latitudeDelta: 0.1,
                 longitudeDelta: 0.1
               }}
