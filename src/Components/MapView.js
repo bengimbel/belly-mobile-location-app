@@ -15,15 +15,15 @@ class BellyMapView extends Component<Props> {
           return(
 
             <MapView.Marker
-              key={biz.coordinates.id}
+              key={biz.id}
               coordinate={{
                 latitude: biz.coordinates.latitude,
                 longitude: biz.coordinates.longitude,
                 latitudeDelta: 0.1,
                 longitudeDelta: 0.1
               }}
-              title={biz.coordinates.alias}
-              description={biz.coordinates.alias}
+              title={biz.name}
+              description={biz.name}
             />
           )
         })
