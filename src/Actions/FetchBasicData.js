@@ -9,7 +9,7 @@ import { api_key } from '../Utils/Api-Key'
 
 export default function fetchBasicData(lat, long) {
     let headers = new Headers;
-    headers.append("Authorization", `Bearer ${api_key}`);
+    headers.append("Authorization", `Bearer ${api_key}`); //PUT YOUR API KEY HERE. I DID NOT PUSH MY API KEY TO GITHUB
     const newUrl = `${url}latitude=${lat}&longitude=${long}`;
     console.log(newUrl, 'newUrl')
     return dispatch => {

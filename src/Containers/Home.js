@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import BellyMapView from './MapView';
+import BellyMapView from '../Components/MapView';
 import fetchBasicData from '../Actions/FetchBasicData';
 import fetchUserCoordinates from '../Actions/FetchUserCoordinates';
 import _ from 'lodash';
