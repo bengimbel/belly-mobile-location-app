@@ -13,7 +13,6 @@ class BellyMapView extends Component<Props> {
       return (
         this.props.basicData.data.businesses.map((biz) => {
           return(
-
             <MapView.Marker
               key={biz.id}
               coordinate={{
@@ -32,13 +31,18 @@ class BellyMapView extends Component<Props> {
     }
   }
     render() {
+      const lat = this.props.lat;
+      const lon = this.props.lon;
         return (
+          
           <View style={styles.container}>
     
+          {this.props.basicData.data.businesses &&
+            
             <MapView style={styles.map}
               region={{
-                latitude: 41.878113,
-                longitude: -87.629799,
+                latitude: lat,
+                longitude: lon,
                 latitudeDelta: 0.1,
                 longitudeDelta: 0.1
               }}
@@ -48,7 +52,19 @@ class BellyMapView extends Component<Props> {
                 this.renderMarkers()
               }
             </MapView>
-
+          } 
+          {!this.props.basicData.data.businesses &&
+            <MapView style={styles.map}
+              region={{
+                latitude: 41.8781,
+                longitude: -87.6298,
+                latitudeDelta: 15.0,
+                longitudeDelta: 15.0,
+              }}
+              showsUserLocation
+            >
+            </MapView>
+          }
           </View>
         );
       }

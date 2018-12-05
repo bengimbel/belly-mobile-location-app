@@ -29,6 +29,7 @@ class Home extends Component<Props> {
                 longitude: position.coords.longitude,
                 error: null,
               }, () => {
+                  console.log(this.state.latitude, this.state.longitude, 'LAT&LONG')
                 this.props.fetchBasicData(this.state.latitude, this.state.longitude)
               });
             },
@@ -40,6 +41,7 @@ class Home extends Component<Props> {
     check() {
         if(this.state.latitude){
             console.log(this.state.latitude, 'state.latitude')
+            console.log(this.state.longitude, 'state.longitude')
         }
         if(this.props.userCoordinates.coordinates.coords){
             console.log(this.props.userCoordinates.coordinates.coords.latitude, 'latitude')
@@ -53,7 +55,10 @@ class Home extends Component<Props> {
     render(){
         return (
             <View style={styles.container}>
-                <BellyMapView />
+                <BellyMapView
+                    lat={this.state.latitude}
+                    lon={this.state.longitude}
+                />
                 {
                     this.check()
                 }
