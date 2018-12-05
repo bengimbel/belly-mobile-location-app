@@ -17,11 +17,11 @@ class BellyMapView extends Component<Props> {
 }
 
   renderMarkers() {
-    console.log(this.props.data, 'DSDADADA')
     if(this.props.data){
-      console.log(this.props.data, 'DATA I NEED')
       return (
         this.props.data.map((biz) => {
+          let milesUnformatted = biz.distance * 0.000621371192
+          let miles = Math.round(milesUnformatted * 100) / 100
           return(
             <MapView.Marker
               key={biz.id}
@@ -32,7 +32,7 @@ class BellyMapView extends Component<Props> {
                 longitudeDelta: 0.1
               }}
               title={biz.name}
-              description={biz.name}
+              description={miles.toString() + ' miles away'}
             />
           )
         })
