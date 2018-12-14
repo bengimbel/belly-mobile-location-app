@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View, FlatList, Image} from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { List, ListItem } from 'react-native-elements';
 
 
-class BellyListView extends Component<Props> {
+class BellyListView extends Component {
     constructor(props){
         super(props)
-        console.log('ehy')
-        // this.state = ({
-            
-        // })
+        this.state = ({
+            yelpData: null
+        })
     }
 
     renderList(){
-        
         if(this.props.data){
             return (
             <View>
