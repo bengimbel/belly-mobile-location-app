@@ -9,11 +9,23 @@ class BellyListView extends Component {
             yelpData: null
         })
     }
+    componentDidMount(){
+        if (this.props.data.distance){
+            let newObj = this.props.data.map((x) => {
+                Math.round((x.distance * 0.000621371192) * 100) / 100
+            })
+            console.log(newObj, 'newpk');
+            let sortedLocations = this.props.data.sort(function (a, b) {
+                return a.forks - b.forks;
+              });
+    }
+}
 
     renderList(){
         if(this.props.data){
+            console.log(this.props.data)
             return (
-            <View>
+            <View style={styles.listStyle}>
                 <FlatList
                     data={this.props.data}
                     keyExtractor={item => item.alias}
@@ -27,6 +39,13 @@ class BellyListView extends Component {
                                 <Text style={styles.secondaryText}>{Math.round((item.distance * 0.000621371192) * 100) / 100 + ' miles away'}</Text>
                                 <Text style={styles.secondaryText}>{item.categories.map(info => info.title + ' ')}</Text>
                             </View>
+                            <View style={styles.hoursContainer}>
+                            {item.is_closed ? 
+                                <Text style={styles.hoursTextClosed}>CLOSED</Text>
+                                :
+                                <Text style={styles.hoursTextOpened}>OPEN</Text>
+                            }
+                            </View>    
                         </View>
                         
                     )}
@@ -52,21 +71,44 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'flex-start',
         backgroundColor: '#fff'
     },
     imageContainerStyle: {
-        padding: 15
+        padding: 10
     },
     textContainerStyle: {
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        paddingTop: 10,
+        paddingBottom: 5
     },
     mainText:{
         fontSize: 17,
-        width: 225
+        width: 160,
+        paddingBottom: 5
     },
     secondaryText: {
-        width: 225
+        width: 160,
+        paddingBottom: 5
     },
+    hoursContainer: {
+        paddingTop: 10,
+        paddingLeft: 35,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        alignSelf: 'flex-start',
+        display: 'flex'
+    },
+    hoursTextClosed: {
+        fontSize: 14,
+        color: 'red'
+    },
+    hoursTextOpened: {
+        fontSize: 14,
+        color: 'green'
+    },
+    listStyle: {
+        paddingBottom: 73
+    }
 });

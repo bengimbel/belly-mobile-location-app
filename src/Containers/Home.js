@@ -10,9 +10,7 @@ import fetchCustomLocation from '../Actions/FetchCustomLocation';
 import _ from 'lodash';
 import { SearchBar } from 'react-native-elements';
 
-type Props = {};
-
-class Home extends Component<Props> {
+class Home extends Component {
     constructor(props){
         super(props)
 
@@ -43,8 +41,12 @@ class Home extends Component<Props> {
               }, () => {
                 this.props.fetchBasicData(this.state.latitude, this.state.longitude).then(() => {
                     if(this.props.basicData.data.businesses){
+                        let sortedBasicData = this.props.basicData.data.businesses.sort(function (a, b) {
+                            return a.distance - b.distance;
+                          });
+                          console.log(sortedBasicData, 'sortedBasicData')
                         this.setState({
-                            externalData: this.props.basicData.data.businesses
+                            externalData: sortedBasicData
                         })
                     }
                 })
@@ -101,10 +103,14 @@ class Home extends Component<Props> {
     onSubmit() {
         this.props.fetchCustomLocation(this.state.cityInput, this.state.termInput).then(() => {
             if(this.props.customData.data.region){
+                let sortedCustomData = this.props.customData.data.businesses.sort(function (a, b) {
+                    return a.distance - b.distance;
+                  });
+                  console.log(sortedCustomData, 'sortedCustomData')
                 this.setState({
                     latitude: this.props.customData.data.region.center.latitude,
                     longitude: this.props.customData.data.region.center.longitude,
-                    externalData: this.props.customData.data.businesses
+                    externalData: sortedCustomData
                 })
             }
         })
