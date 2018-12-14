@@ -8,5 +8,5 @@ export const USER_COORDINATE_FAIL = 'USER_COORDINATE_FAIL';
 export const FETCH_CUSTOM_DATA = 'FETCH_CUSTOM_DATA';
 export const FETCH_CUSTOM_DATA_SUCCESS = 'FETCH_CUSTOM_DATA_SUCCESS';
 export const FETCH_CUSTOM_DATA_FAIL = 'FETCH_CUSTOM_DATA_FAIL';
-export const url = 'https://api.yelp.com/v3/businesses/search?term=food&';
+export const url = 'https://api.yelp.com/v3/businesses/search?';
 export const urlCustom = 'https://api.yelp.com/v3/businesses/search?'

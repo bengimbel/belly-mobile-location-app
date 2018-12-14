@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Dimensions} from 'react-native';
+import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import BellyMapView from '../Components/MapView';
+import BellyListView from '../Components/ListView';
 import fetchBasicData from '../Actions/FetchBasicData';
 import fetchUserCoordinates from '../Actions/FetchUserCoordinates';
 import fetchCustomLocation from '../Actions/FetchCustomLocation';
@@ -22,12 +23,14 @@ class Home extends Component<Props> {
             error: null,
             cityInput: '',
             termInput: '',
+            activateMapButtonToggle: true
         })
         this.onCityInputChange = this.onCityInputChange.bind(this)
         this.onCityInputClear = this.onCityInputClear.bind(this)
         this.onTermInputChange = this.onTermInputChange.bind(this)
         this.onTermInputClear = this.onTermInputClear.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+        this.renderMapButton = this.renderMapButton.bind(this)
     }
 
     componentDidMount() {
@@ -38,7 +41,6 @@ class Home extends Component<Props> {
                 longitude: position.coords.longitude,
                 error: null,
               }, () => {
-                  console.log(this.state.latitude, this.state.longitude, 'LAT&LONG')
                 this.props.fetchBasicData(this.state.latitude, this.state.longitude).then(() => {
                     if(this.props.basicData.data.businesses){
                         this.setState({
@@ -68,7 +70,6 @@ class Home extends Component<Props> {
         if(this.props.customData.data.region){
             console.log(this.props.customData, 'customLocation')
             console.log(this.props.customData.data.region.center.latitude, 'customLocationLatitude')
-            // console.log(this.props.customData.data.coordinates.longitude, 'customLocationLongitude')
         }
     }
 
@@ -104,35 +105,92 @@ class Home extends Component<Props> {
                     latitude: this.props.customData.data.region.center.latitude,
                     longitude: this.props.customData.data.region.center.longitude,
                     externalData: this.props.customData.data.businesses
-                }, console.log(this.state, 'stateee'))
+                })
             }
         })
+    }
+
+    renderMapButton(){
+        if(this.state.activateMapButtonToggle){
+            return(
+                 <TouchableOpacity
+                    style={styles.toggleButton}
+                    raised={true}
+                    onPress={() => this.setState({
+                        activateMapButtonToggle: !this.state.activateMapButtonToggle
+                    })}
+                >
+                    <Text style={styles.toggleButtonText}>Show List</Text>
+                </TouchableOpacity>
+            )
+        } else {
+            return(
+                <TouchableOpacity
+                    style={styles.toggleButton}
+                    raised={true}
+                    onPress={() => this.setState({
+                        activateMapButtonToggle: !this.state.activateMapButtonToggle
+                    })}
+                >
+                    <Text style={styles.toggleButtonText}>Show Map</Text>
+                </TouchableOpacity>
+            )
+        }
+
     }
 
 
     render(){
         return (
-            <View style={styles.container}>
-                <BellyMapView
-                    lat={this.state.latitude}
-                    lon={this.state.longitude}
-                    data={this.state.externalData}
-                />
-                <SearchBar 
-                    lightTheme
-                    value={this.state.cityInput}
-                    onChangeText={this.onCityInputChange}
-                    onClear={this.onCityInputClear}
-                    onSubmitEditing={this.onSubmit}
-                    placeholder='Type Here...' />
-                <SearchBar 
-                    lightTheme
-                    value={this.state.termInput}
-                    onChangeText={this.onTermInputChange}
-                    onClear={this.onTermInputClear}
-                    onSubmitEditing={this.onSubmit}
-                    placeholder='Type Here...' />
-                    
+            <View style={styles.phoneContainer}>
+                {this.state.activateMapButtonToggle ? 
+                    <View style={styles.mainContainer}>
+                        <View style={styles.searchContainer}>
+                            <Text style={styles.title}>Locations</Text>
+                            {
+                                this.renderMapButton()
+                            }
+                            <SearchBar
+                                containerStyle={{backgroundColor: '#33A9E0', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+                                lightTheme
+                                round
+                                inputContainerStyle={{backgroundColor: '#fff'}}
+                                value={this.state.cityInput}
+                                onChangeText={this.onCityInputChange}
+                                onClear={this.onCityInputClear}
+                                onSubmitEditing={this.onSubmit}
+                                placeholder='Search City' />
+                            <SearchBar 
+                                containerStyle={{backgroundColor: '#33A9E0', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+                                lightTheme
+                                round
+                                inputContainerStyle={{backgroundColor: '#fff'}}
+                                value={this.state.termInput}
+                                onChangeText={this.onTermInputChange}
+                                onClear={this.onTermInputClear}
+                                onSubmitEditing={this.onSubmit}
+                                style={{marginRight: 40, marginLeft: '40px'}}
+                                placeholder='Search Keyword' />
+                        </View>
+                        <BellyMapView
+                            lat={this.state.latitude}
+                            lon={this.state.longitude}
+                            data={this.state.externalData}
+                        /> 
+                    </View>
+                : 
+                    <View style={styles.mainContainer}>
+                        <View style={styles.searchContainer}>
+                            <Text style={styles.title}>Locations</Text>
+                            {
+                                this.renderMapButton()
+                            }
+                        </View>
+                        <BellyListView
+                            data={this.state.externalData}
+                        />
+                    </View>
+                }   
                 {
                     this.check()
                 }
@@ -157,24 +215,40 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
-    container: {
-    //   position: 'absolute',
-    //   top: 0,
-    //   left: 0,
-    //   right: 0,
-    //   bottom: 0,
-    //   justifyContent: 'flex-end',
-    //   alignItems: 'center'
-    flex: 1,
-    flexDirection: 'column',
-    marginTop: 50
+    phoneContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        paddingTop: 25,
+        backgroundColor: '#33A9E0'
     },
-    map: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0
+    mainContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        paddingTop: 25,
+        backgroundColor: '#33A9E0'
     },
-
+    searchContainer: {
+        marginRight: 10,
+        marginLeft: 10,
+        backgroundColor: '#33A9E0'
+    },
+    toggleButton: {
+        marginRight:10,
+        marginLeft:10,
+        marginTop:5,
+        marginBottom:10,
+        paddingTop:5,
+        paddingBottom:5,
+        backgroundColor:'#fff',
+        borderRadius:10,
+    },
+    toggleButtonText: {
+        color: '#33A9E0', 
+        textAlign: 'center'
+    },
+    title: {
+        fontSize: 26,
+        color: '#fff',
+        textAlign: 'center'
+    }
   });
