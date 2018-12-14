@@ -9,21 +9,10 @@ class BellyListView extends Component {
             yelpData: null
         })
     }
-    componentDidMount(){
-        if (this.props.data.distance){
-            let newObj = this.props.data.map((x) => {
-                Math.round((x.distance * 0.000621371192) * 100) / 100
-            })
-            console.log(newObj, 'newpk');
-            let sortedLocations = this.props.data.sort(function (a, b) {
-                return a.forks - b.forks;
-              });
-    }
-}
 
     renderList(){
         if(this.props.data){
-            console.log(this.props.data)
+            console.log(this.props.data, 'this.props.data')
             return (
             <View style={styles.listStyle}>
                 <FlatList
