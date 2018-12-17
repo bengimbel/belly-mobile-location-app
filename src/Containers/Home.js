@@ -168,8 +168,6 @@ class Home extends Component {
                             lat={this.state.myLatitude}
                             lon={this.state.myLongitude}
                             data={this.state.externalData}
-                            searchLat={this.state.searchLat}
-                            searchLon={this.state.searchLon}
                         /> 
                     </View>
                 : 
