@@ -19,6 +19,7 @@ export default function fetchBasicData(lat, long) {
             dispatch({ type: BASIC_DATA_SUCCESS, payload: basicData })
         })
         .catch(error => {
+            alert('No Internet: Using Cached Data');
             dispatch({ type: BASIC_DATA_FAIL, payload: error })
         })
     }

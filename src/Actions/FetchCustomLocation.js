@@ -20,6 +20,7 @@ export default function fetchCustomLocation(location, term) {
             dispatch({ type: FETCH_CUSTOM_DATA_SUCCESS, payload: customData })
         })
         .catch(error => {
+            alert('No Internet: Using Cached Data');
             dispatch({ type: FETCH_CUSTOM_DATA_FAIL, payload: error })
         })
     }

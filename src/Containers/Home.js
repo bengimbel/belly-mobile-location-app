@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity} from 'react-native';
+import {Platform, StyleSheet, Text, View, Dimensions, TouchableOpacity, AsyncStorage} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import BellyMapView from '../Components/MapView';
@@ -31,31 +31,60 @@ class Home extends Component {
         this.renderMapButton = this.renderMapButton.bind(this)
     }
 
-    componentDidMount() {
+     async componentDidMount() {
+        await AsyncStorage.getItem('storedData').then((value) => {
+            let newValue = JSON.parse(value);
+            console.log(newValue, 'parsedValue')
+            this.setState({
+                externalData: newValue
+            })
+         })
+         await AsyncStorage.getItem('storedBasicDataLat').then((value) => {
+            let newValue = JSON.parse(value);
+            console.log(newValue, 'parsedValueLat')
+            this.setState({
+                latitude: newValue
+            })
+         })
+         await AsyncStorage.getItem('storedBasicDataLon').then((value) => {
+            let newValue = JSON.parse(value);
+            console.log(newValue, 'parsedValueLon')
+            this.setState({
+                longitude: newValue
+            })
+         })
+
         navigator.geolocation.getCurrentPosition(
             (position) => {
-              this.setState({
+                let lat = JSON.stringify(position.coords.latitude);
+                let lon = JSON.stringify(position.coords.longitude);
+                AsyncStorage.setItem('storedBasicDataLat', lat);
+                AsyncStorage.setItem('storedBasicDataLon', lon);
+                this.setState({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
                 error: null,
-              }, () => {
+                }, () => {
                 this.props.fetchBasicData(this.state.latitude, this.state.longitude).then(() => {
                     if(this.props.basicData.data.businesses){
                         let sortedBasicData = this.props.basicData.data.businesses.sort(function (a, b) {
                             return a.distance - b.distance;
-                          });
-                          console.log(sortedBasicData, 'sortedBasicData')
+                            });
+                            console.log(sortedBasicData, 'sortedBasicData')
+                            let stringifyValue = JSON.stringify(sortedBasicData)
+                            AsyncStorage.setItem('storedData', stringifyValue);
                         this.setState({
                             externalData: sortedBasicData
                         })
                     }
                 })
-              });
+                });
             },
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-          )
-      }
+            )
+    }
+      
 
     check() {
         if(this.state.latitude){
@@ -106,7 +135,12 @@ class Home extends Component {
                 let sortedCustomData = this.props.customData.data.businesses.sort(function (a, b) {
                     return a.distance - b.distance;
                   });
-                  console.log(sortedCustomData, 'sortedCustomData')
+                  let lat = this.props.customData.data.region.center.latitude;
+                  let lon = this.props.customData.data.region.center.longitude;
+                  let customData = sortedCustomData;
+                  AsyncStorage.setItem('storedBasicDataLat', JSON.stringify(lat));
+                  AsyncStorage.setItem('storedBasicDataLon', JSON.stringify(lon));
+                  AsyncStorage.setItem('storedData', JSON.stringify(customData));
                 this.setState({
                     latitude: this.props.customData.data.region.center.latitude,
                     longitude: this.props.customData.data.region.center.longitude,

@@ -43,37 +43,24 @@ class BellyMapView extends Component<Props> {
     }
   }
     render() {
+      let { lat, lon, data } = this.props;
         return (
-  
           <View style={styles.container}>
-    
-          {this.props.basicData.data.businesses &&
-            
+          {
+            lat !== null && lon !== null && data !== null &&
             <MapView style={styles.map}
-              region={{
-                latitude: this.props.lat,
-                longitude: this.props.lon,
-                latitudeDelta: 0.1,
-                longitudeDelta: 0.1
-              }}
-              showsUserLocation
-            >
-              {
-                this.renderMarkers()
-              }
-            </MapView>
-          } 
-          {!this.props.basicData.data.businesses &&
-            <MapView style={styles.map}
-              region={{
-                latitude: 41.8781,
-                longitude: -87.6298,
-                latitudeDelta: 15.0,
-                longitudeDelta: 15.0,
-              }}
-              showsUserLocation
-            >
-            </MapView>
+            region={{
+              latitude: this.props.lat,
+              longitude: this.props.lon,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1
+            }}
+            showsUserLocation
+          >
+            {
+              this.renderMarkers()
+            }
+          </MapView>
           }
           </View>
         );
@@ -82,25 +69,11 @@ class BellyMapView extends Component<Props> {
 
 const styles = StyleSheet.create({
     container: {
-      // position: 'relative',
-      // top: 0,
-      // left: 0,
-      // right: 0,
-      // bottom: 0,
-      // justifyContent: 'flex-end',
-      // alignItems: 'center'
       display: 'flex',
       flexDirection: 'row',
       flex: 1,
-      // alignItems: 'center',
-      // justifyContent: 'flex-start'
     },
     map: {
-      // position: 'absolute',
-      // top: 0,
-      // left: 0,
-      // bottom: 0,
-      // right: 0
       display: 'flex',
       flexDirection: 'row',
       flex: 1,
