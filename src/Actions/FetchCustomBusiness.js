@@ -7,10 +7,11 @@ import {
 } from '../Utils/Constants';
 import { api_key } from '../Utils/Api-Key'
 
-export default function fetchCustomLocation(location, term) {
+export default function fetchCustomBusiness(term, latitude, longitude) {
     let headers = new Headers;
     headers.append("Authorization", `Bearer ${api_key}`); //PUT YOUR API KEY HERE. I DID NOT PUSH MY API KEY TO GITHUB
-    const newUrl = `${urlCustom}location=${location}&term=${term}`;
+    console.log(location, 'location');
+    const newUrl = `${urlCustom}latitude=${latitude}&longitude=${longitude}&term=${term}`;
     console.log(newUrl, 'newUrl')
     return dispatch => {
         dispatch({ type: FETCH_CUSTOM_DATA })

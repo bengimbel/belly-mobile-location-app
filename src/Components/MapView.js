@@ -3,9 +3,8 @@ import MapView from 'react-native-maps';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-type Props = {};
 
-class BellyMapView extends Component<Props> {
+class BellyMapView extends Component {
   constructor(props){
     super(props)
 
@@ -50,10 +49,10 @@ class BellyMapView extends Component<Props> {
             lat !== null && lon !== null && data !== null &&
             <MapView style={styles.map}
             region={{
-              latitude: this.props.lat,
-              longitude: this.props.lon,
-              latitudeDelta: 0.1,
-              longitudeDelta: 0.1
+              latitude: lat,
+              longitude: lon,
+              latitudeDelta: 0.05,
+              longitudeDelta: 0.05
             }}
             showsUserLocation
           >

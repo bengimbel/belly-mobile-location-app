@@ -6,7 +6,7 @@ import BellyMapView from '../Components/MapView';
 import BellyListView from '../Components/ListView';
 import fetchBasicData from '../Actions/FetchBasicData';
 import fetchUserCoordinates from '../Actions/FetchUserCoordinates';
-import fetchCustomLocation from '../Actions/FetchCustomLocation';
+import fetchCustomBusiness from '../Actions/FetchCustomBusiness';
 import _ from 'lodash';
 import { SearchBar } from 'react-native-elements';
 
@@ -16,15 +16,12 @@ class Home extends Component {
 
         this.state = ({
             externalData: null,
-            latitude: null,
-            longitude: null,
+            myLatitude: null,
+            myLongitude: null,
             error: null,
-            cityInput: '',
             termInput: '',
             activateMapButtonToggle: true
         })
-        this.onCityInputChange = this.onCityInputChange.bind(this)
-        this.onCityInputClear = this.onCityInputClear.bind(this)
         this.onTermInputChange = this.onTermInputChange.bind(this)
         this.onTermInputClear = this.onTermInputClear.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
@@ -43,14 +40,14 @@ class Home extends Component {
             let newValue = JSON.parse(value);
             console.log(newValue, 'parsedValueLat')
             this.setState({
-                latitude: newValue
+                myLatitude: newValue
             })
          })
          await AsyncStorage.getItem('storedBasicDataLon').then((value) => {
             let newValue = JSON.parse(value);
             console.log(newValue, 'parsedValueLon')
             this.setState({
-                longitude: newValue
+                myLongitude: newValue
             })
          })
 
@@ -61,11 +58,11 @@ class Home extends Component {
                 AsyncStorage.setItem('storedBasicDataLat', lat);
                 AsyncStorage.setItem('storedBasicDataLon', lon);
                 this.setState({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
+                myLatitude: position.coords.latitude,
+                myLongitude: position.coords.longitude,
                 error: null,
                 }, () => {
-                this.props.fetchBasicData(this.state.latitude, this.state.longitude).then(() => {
+                this.props.fetchBasicData(this.state.myLatitude, this.state.myLongitude).then(() => {
                     if(this.props.basicData.data.businesses){
                         let sortedBasicData = this.props.basicData.data.businesses.sort(function (a, b) {
                             return a.distance - b.distance;
@@ -84,43 +81,12 @@ class Home extends Component {
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
             )
     }
-      
 
-    check() {
-        if(this.state.latitude){
-            console.log(this.state.latitude, 'state.latitude')
-            console.log(this.state.longitude, 'state.longitude')
-        }
-        if(this.props.userCoordinates.coordinates.coords){
-            console.log(this.props.userCoordinates.coordinates.coords.latitude, 'latitude')
-            console.log(this.props.userCoordinates.coordinates.coords.longitude, 'longitude')
-        }
-        if(this.props.basicData.data){
-            console.log(this.props.basicData.data);
-        }
-        if(this.props.customData.data.region){
-            console.log(this.props.customData, 'customLocation')
-            console.log(this.props.customData.data.region.center.latitude, 'customLocationLatitude')
-        }
-    }
-
-    onCityInputChange(cityInput){
-        this.setState({
-            cityInput: cityInput
-        })
-        console.log(this.state.cityInput)
-    }
     onTermInputChange(termInput){
         this.setState({
             termInput: termInput
         })
         console.log(this.state.termInput)
-    }
-    onCityInputClear(){
-        this.setState({
-            cityInput: ''
-        })
-        console.log(this.state.cityInput)
     }
     onTermInputClear(){
         this.setState({
@@ -130,20 +96,13 @@ class Home extends Component {
     }
     
     onSubmit() {
-        this.props.fetchCustomLocation(this.state.cityInput, this.state.termInput).then(() => {
+        this.props.fetchCustomBusiness(this.state.termInput, this.state.myLatitude, this.state.myLongitude).then(() => {
             if(this.props.customData.data.region){
                 let sortedCustomData = this.props.customData.data.businesses.sort(function (a, b) {
                     return a.distance - b.distance;
                   });
-                  let lat = this.props.customData.data.region.center.latitude;
-                  let lon = this.props.customData.data.region.center.longitude;
-                  let customData = sortedCustomData;
-                  AsyncStorage.setItem('storedBasicDataLat', JSON.stringify(lat));
-                  AsyncStorage.setItem('storedBasicDataLon', JSON.stringify(lon));
-                  AsyncStorage.setItem('storedData', JSON.stringify(customData));
+                  AsyncStorage.setItem('storedData', JSON.stringify(sortedCustomData));
                 this.setState({
-                    latitude: this.props.customData.data.region.center.latitude,
-                    longitude: this.props.customData.data.region.center.longitude,
                     externalData: sortedCustomData
                 })
             }
@@ -190,32 +149,27 @@ class Home extends Component {
                             {
                                 this.renderMapButton()
                             }
-                            <SearchBar
-                                containerStyle={{backgroundColor: '#33A9E0', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
-                                lightTheme
-                                round
-                                inputContainerStyle={{backgroundColor: '#fff'}}
-                                value={this.state.cityInput}
-                                onChangeText={this.onCityInputChange}
-                                onClear={this.onCityInputClear}
-                                onSubmitEditing={this.onSubmit}
-                                placeholder='Search City' />
                             <SearchBar 
                                 containerStyle={{backgroundColor: '#33A9E0', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
                                 lightTheme
                                 round
+                                clearIcon={{ color: 'red' }}
                                 inputContainerStyle={{backgroundColor: '#fff'}}
                                 value={this.state.termInput}
                                 onChangeText={this.onTermInputChange}
                                 onClear={this.onTermInputClear}
                                 onSubmitEditing={this.onSubmit}
-                                style={{marginRight: 40, marginLeft: '40px'}}
-                                placeholder='Search Keyword' />
+                                style={{marginRight: 40, marginLeft: '40px', fontSize: 1}}
+                                placeholder='Search by Keyword'
+                                placeholderTextColor= '#33A9E0'
+                                />
                         </View>
                         <BellyMapView
-                            lat={this.state.latitude}
-                            lon={this.state.longitude}
+                            lat={this.state.myLatitude}
+                            lon={this.state.myLongitude}
                             data={this.state.externalData}
+                            searchLat={this.state.searchLat}
+                            searchLon={this.state.searchLon}
                         /> 
                     </View>
                 : 
@@ -230,17 +184,13 @@ class Home extends Component {
                             data={this.state.externalData}
                         />
                     </View>
-                }   
-                {
-                    this.check()
-                }
-                
+                }     
             </View>
         )
     }
 }
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ fetchBasicData, fetchUserCoordinates, fetchCustomLocation }, dispatch);
+    return bindActionCreators({ fetchBasicData, fetchUserCoordinates, fetchCustomBusiness }, dispatch);
   }
 
 const mapStateToProps = (state) => {
