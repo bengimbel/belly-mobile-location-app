@@ -2,4 +2,7 @@ This is a React Native Application I created that can help users find businesses
 
 <div align="center">
     <img src="src/AppScreenshots/MapScreenshot.png" width="400px"</img> 
+     <img src="src/AppScreenshots/ListviewScreenshot.png" width="400px"</img> 
+      <img src="src/AppScreenshots/StarbucksMapScreenshot.png" width="400px"</img> 
+       <img src="src/AppScreenshots/StarbucksListviewScreenshot.png" width="400px"</img> 
 </div>
