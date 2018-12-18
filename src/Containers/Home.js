@@ -31,21 +31,18 @@ class Home extends Component {
      async componentDidMount() {
         await AsyncStorage.getItem('storedData').then((value) => {
             let newValue = JSON.parse(value);
-            console.log(newValue, 'parsedValue')
             this.setState({
                 externalData: newValue
             })
          })
          await AsyncStorage.getItem('storedBasicDataLat').then((value) => {
             let newValue = JSON.parse(value);
-            console.log(newValue, 'parsedValueLat')
             this.setState({
                 myLatitude: newValue
             })
          })
          await AsyncStorage.getItem('storedBasicDataLon').then((value) => {
             let newValue = JSON.parse(value);
-            console.log(newValue, 'parsedValueLon')
             this.setState({
                 myLongitude: newValue
             })
@@ -67,7 +64,6 @@ class Home extends Component {
                         let sortedBasicData = this.props.basicData.data.businesses.sort(function (a, b) {
                             return a.distance - b.distance;
                             });
-                            console.log(sortedBasicData, 'sortedBasicData')
                             let stringifyValue = JSON.stringify(sortedBasicData)
                             AsyncStorage.setItem('storedData', stringifyValue);
                         this.setState({
@@ -86,13 +82,11 @@ class Home extends Component {
         this.setState({
             termInput: termInput
         })
-        console.log(this.state.termInput)
     }
     onTermInputClear(){
         this.setState({
             termInput: ''
         })
-        console.log(this.state.termInput)
     }
     
     onSubmit() {

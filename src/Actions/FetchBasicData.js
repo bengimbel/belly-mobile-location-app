@@ -11,7 +11,6 @@ export default function fetchBasicData(lat, long) {
     let headers = new Headers;
     headers.append("Authorization", `Bearer ${api_key}`); //PUT YOUR API KEY HERE. I DID NOT PUSH MY API KEY TO GITHUB
     const newUrl = `${url}latitude=${lat}&longitude=${long}`;
-    console.log(newUrl, 'newUrl')
     return dispatch => {
         dispatch({ type: FETCH_BASIC_DATA })
         return fetch(newUrl, {headers: headers}).then(response => response.json())

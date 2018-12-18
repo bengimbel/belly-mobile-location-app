@@ -12,7 +12,6 @@ class BellyListView extends Component {
 
     renderList(){
         if(this.props.data){
-            console.log(this.props.data, 'this.props.data')
             return (
             <View style={styles.listStyle}>
                 <FlatList
