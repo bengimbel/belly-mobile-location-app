@@ -1,0 +1,239 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#33A9E0",
+      "flex": 1,
+      "flexDirection": "column",
+      "paddingTop": 25,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#33A9E0",
+        "flex": 1,
+        "flexDirection": "column",
+        "paddingTop": 25,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "#33A9E0",
+          "marginLeft": 10,
+          "marginRight": 10,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#fff",
+            "fontSize": 26,
+            "textAlign": "center",
+          }
+        }
+      >
+        Locations
+      </Text>
+      <View
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#fff",
+            "borderRadius": 10,
+            "marginBottom": 10,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "marginTop": 5,
+            "opacity": 1,
+            "paddingBottom": 5,
+            "paddingTop": 5,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#33A9E0",
+              "textAlign": "center",
+            }
+          }
+        >
+          Show List
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "backgroundColor": "#33A9E0",
+            "borderBottomColor": "transparent",
+            "borderBottomWidth": 1,
+            "borderTopColor": "transparent",
+            "borderTopWidth": 1,
+            "padding": 8,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "width": "100%",
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#fff",
+                "borderBottomWidth": 0,
+                "borderColor": "#86939e",
+                "borderRadius": 15,
+                "flexDirection": "row",
+                "height": 30,
+                "overflow": "hidden",
+                "transform": Array [
+                  Object {
+                    "translateX": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "height": 40,
+                  "justifyContent": "center",
+                  "marginLeft": 8,
+                }
+              }
+            >
+              <View>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "backgroundColor": "transparent",
+                      "justifyContent": "center",
+                    }
+                  }
+                  theme={
+                    Object {
+                      "colors": Object {
+                        "divider": "#bcbbc1",
+                        "error": "#ff190c",
+                        "grey0": "#393e42",
+                        "grey1": "#43484d",
+                        "grey2": "#5e6977",
+                        "grey3": "#86939e",
+                        "grey4": "#bdc6cf",
+                        "grey5": "#e1e8ee",
+                        "greyOutline": "#bbb",
+                        "primary": "#2089dc",
+                        "searchBg": "#303337",
+                        "secondary": "#8F0CE8",
+                      },
+                    }
+                  }
+                  underlayColor="white"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    style={
+                      Array [
+                        Object {
+                          "color": "#86939e",
+                          "fontSize": 18,
+                        },
+                        Object {
+                          "backgroundColor": "transparent",
+                        },
+                        Object {
+                          "fontFamily": "Material Design Icons",
+                          "fontStyle": "normal",
+                          "fontWeight": "normal",
+                        },
+                        Object {},
+                      ]
+                    }
+                    testID="iconIcon"
+                  >
+                    
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <TextInput
+              allowFontScaling={true}
+              onBlur={[Function]}
+              onChangeText={[Function]}
+              onClear={[Function]}
+              onFocus={[Function]}
+              onSubmitEditing={[Function]}
+              placeholder="Search by Keyword"
+              placeholderTextColor="#33A9E0"
+              platform="default"
+              style={
+                Object {
+                  "alignSelf": "center",
+                  "color": "#86939e",
+                  "flex": 1,
+                  "fontSize": 18,
+                  "height": 40,
+                  "marginLeft": 10,
+                }
+              }
+              testID="searchInput"
+              underlineColorAndroid="transparent"
+              value=""
+            />
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "height": 40,
+                  "justifyContent": "center",
+                  "marginLeft": 15,
+                  "marginRight": 8,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                  }
+                }
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "display": "flex",
+          "flex": 1,
+          "flexDirection": "row",
+        }
+      }
+    />
+  </View>
+</View>
+`;
